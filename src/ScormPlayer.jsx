@@ -15,12 +15,9 @@ const ScormPlayer = ({ packageId, launchUrl, onClose, onProgressUpdate }) => {
       const token = localStorage.getItem("token");
 
       // Load existing progress
-      const response = await axios.get(
-        `https://scorm-test-qcso.onrender.com/api/scorm/progress/${packageId}`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
+      const response = await axios.get(`/api/scorm/progress/${packageId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
 
       const progressData = response.data;
 
@@ -88,13 +85,9 @@ const ScormPlayer = ({ packageId, launchUrl, onClose, onProgressUpdate }) => {
         scormData: data,
       };
 
-      await axios.post(
-        `https://scorm-test-qcso.onrender.com/api/scorm/progress/${packageId}`,
-        progressData,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
+      await axios.post(`/api/scorm/progress/${packageId}`, progressData, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
 
       onProgressUpdate(progressData);
       console.log("Progress saved successfully");
@@ -213,9 +206,10 @@ const ScormPlayer = ({ packageId, launchUrl, onClose, onProgressUpdate }) => {
 
       <iframe
         ref={iframeRef}
-        src={`https://scorm-test-qcso.onrender.com/scorm-packages/package-${packageId}/${launchUrl}`}
+        src={`/scorm-packages/package-${packageId}/${launchUrl}`}
         style={{ width: "100%", height: "calc(100% - 50px)", border: "none" }}
         title="SCORM Content"
+        sandbox="allow-scripts allow-same-origin" // Add this
         onLoad={() => {
           console.log("SCORM content loaded");
         }}

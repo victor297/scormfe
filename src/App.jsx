@@ -27,13 +27,10 @@ const App = () => {
     setLoading(true);
 
     try {
-      const response = await axios.post(
-        "https://scorm-test-qcso.onrender.com/api/scorm/login",
-        {
-          email,
-          password,
-        }
-      );
+      const response = await axios.post("/api/scorm/login", {
+        email,
+        password,
+      });
 
       const data = response.data;
       localStorage.setItem("token", data.token);
@@ -52,13 +49,10 @@ const App = () => {
     setLoading(true);
 
     try {
-      const response = await axios.post(
-        "https://scorm-test-qcso.onrender.com/api/scorm/register",
-        {
-          email,
-          password,
-        }
-      );
+      const response = await axios.post("/api/scorm/register", {
+        email,
+        password,
+      });
 
       const data = response.data;
       localStorage.setItem("token", data.token);
@@ -73,12 +67,9 @@ const App = () => {
 
   const loadScormPackages = async (token) => {
     try {
-      const response = await axios.get(
-        "https://scorm-test-qcso.onrender.com/api/scorm/scorm-packages",
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
+      const response = await axios.get("/api/scorm/scorm-packages", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
 
       setScormPackages(response.data);
     } catch (error) {
@@ -95,16 +86,12 @@ const App = () => {
 
     try {
       const token = localStorage.getItem("token");
-      const response = await axios.post(
-        "https://scorm-test-qcso.onrender.com/api/scorm/upload-scorm",
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      const response = await axios.post("/api/scorm/upload-scorm", formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      });
 
       const newPackage = response.data;
       setScormPackages((prev) => [...prev, newPackage]);
